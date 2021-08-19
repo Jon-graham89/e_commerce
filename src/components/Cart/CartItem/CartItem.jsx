@@ -3,8 +3,8 @@ import { Typography, Button, Card, CardActions, CardContent, CardMedia } from '@
 import useStyles from './Styles'
 
 
-const CartItem = ({item}) => {
-    console.log(item)
+const CartItem = ({item, handleRemoveFromCart, handleUpdateCartQty}) => {
+ 
     const classes = useStyles()
     return (
         <Card>
@@ -15,11 +15,11 @@ const CartItem = ({item}) => {
            </CardContent>
            <CardActions className={classes.CardActions}>
                <div className={classes.buttons}>
-                   <Button type="button" size="small">-</Button>
+                   <Button type="button" size="small" onClick={()=>handleUpdateCartQty(item.id, item.quantity - 1)}>-</Button>
                    <Typography>{item.quantity}</Typography>
-                   <Button type="button" size="small">+</Button>
+                   <Button type="button" size="small" onClick={()=>handleUpdateCartQty(item.id, item.quantity + 1)}>+</Button>
                </div>
-               <Button type="button" variant="contained" color="secondary">Remove</Button>
+               <Button type="button" variant="contained" color="secondary" onClick={()=>handleRemoveFromCart(item.id)}>Remove</Button>
            </CardActions>
         </Card>
     )
