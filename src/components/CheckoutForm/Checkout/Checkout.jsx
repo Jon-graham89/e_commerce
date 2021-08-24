@@ -26,7 +26,7 @@ const Checkout = () => {
 	return (
 		<>
 			<div className={classes.toolbar} />
-			<main>
+			<main className={classes.layout}>
 				<Paper className={classes.paper}>
 					<Typography variant="h4" align="center">
 						Checkout
