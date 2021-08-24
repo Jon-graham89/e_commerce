@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	InputLabel,
 	Select,
@@ -12,7 +12,7 @@ import FormInput from "./CustomTextField";
 
 import { commerce } from "../../lib/commerce";
 
-const AddressForm = () => {
+const AddressForm = ({ checkoutToken }) => {
 	const [shippingCountries, setShippingCountries] = useState([]);
 	const [shippingCountry, setShippingCountry] = useState("");
 	const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
@@ -21,6 +21,24 @@ const AddressForm = () => {
 	const [shippingOption, setShippingOption] = useState("");
 
 	const methods = useForm();
+
+	const countries = Object.entries(shippingCountries).map(([code, name]) => ({
+		id: code,
+		label: name,
+	}));
+
+	const fetchShippingCountries = async (checkoutTokenId) => {
+		const { countries } = await commerce.services.localeListShippingCountries(
+			checkoutTokenId
+		);
+
+		setShippingCountries(countries);
+		setShippingCountry(Object.keys(countries)[0]);
+	};
+
+	useEffect(() => {
+		fetchShippingCountries(checkoutToken.id);
+	}, []);
 
 	return (
 		<>
@@ -38,10 +56,16 @@ const AddressForm = () => {
 						<FormInput required name="zip-postal" label="Zip / Postal Code" />
 						<Grid item xs={12} sm={6}>
 							<InputLabel>Shipping Country</InputLabel>
-							<Select value={""} fullWidth onChange={""}>
-								<MenuItem key={""} value={""}>
-									Country
-								</MenuItem>
+							<Select
+								value={shippingCountry}
+								fullWidth
+								onChange={(e) => setShippingCountry(e.target.value)}
+							>
+								{countries.map((country) => (
+									<MenuItem key={country.id} value={country.id}>
+										{country.label}
+									</MenuItem>
+								))}
 							</Select>
 						</Grid>
 						<Grid item xs={12} sm={6}>
