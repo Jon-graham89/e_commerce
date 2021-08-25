@@ -96,22 +96,24 @@ const AddressForm = ({ checkoutToken, next, backStep }) => {
 			</Typography>
 			<FormProvider {...methods}>
 				<form
-					onSubmit={methods.handleSubmit((data) =>
+					onSubmit={methods.handleSubmit((data) => {
+						console.log(methods);
+						console.log(data);
 						next({
 							...data,
 							shippingCountry,
 							shippingSubdivision,
 							shippingOption,
-						})
-					)}
+						});
+					})}
 				>
 					<Grid container spacing={3}>
-						<FormInput name="firstName" label="First Name" />
-						<FormInput name="lastName" label="Last Name" />
-						<FormInput name="Address1" label="Address line 1" />
+						<FormInput name="firstname" label="First Name" />
+						<FormInput name="lastname" label="Last Name" />
+						<FormInput name="address1" label="Address line 1" />
 						<FormInput name="email" label="Email" />
 						<FormInput name="city" label="City" />
-						<FormInput name="zip-postal" label="Zip / Postal Code" />
+						<FormInput name="zip_postal" label="Zip / Postal Code" />
 						<Grid item xs={12} sm={6}>
 							<InputLabel>Shipping Country</InputLabel>
 							<Select
